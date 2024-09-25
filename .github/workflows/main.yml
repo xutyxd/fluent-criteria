@@ -31,9 +31,13 @@ jobs:
           npm ci --cache .npm
         id: cache-deps
 
-      - name: Test
+      - name: Test types
         run: |
-          npm run test
+          npm run test:ts
+
+      - name: Units tests
+        run: |
+          npm run test:units:coverage
 
       - name: Build
         run: |
