@@ -18,12 +18,12 @@
   "scripts": {
     "tsc": "tsc",
     "build:commonjs": "rm -fr cjs/* && tsc -p tsconfig-cjs.json && bash cjs-formatter.sh",
-    "build:test": "rm -fr test/* && tsc -p tsconfig-test.json && bash cjs-formatter.sh",
+    "build:test": "rm -fr test/* && tsc -p tsconfig-test.json && bash test-formatter.sh",
     "build:mjs": "rm -fr mjs/* && tsc -p tsconfig.json && bash mjs-formatter.sh",
     "build": "npm run build:commonjs && npm run build:mjs && ./fixup.sh",
     "clean": "npm prune --production",
     "test:ts": "tsc --noEmit",
-    "test:units": "node --test --require ts-node/register tests/**/*.spec.ts",
+    "test:units": "npm run build:test && node --test test/**/*.spec.js",
     "test:units:coverage": "c8 npm run test:units"
   },
   "repository": {
@@ -47,12 +47,13 @@
   },
   "homepage": "https://github.com/xutyxd/fluent-criteria#readme",
   "devDependencies": {
-    "@semantic-release/gitlab": "^9.2.0",
     "@semantic-release/github": "^9.0.6",
+    "@semantic-release/gitlab": "^9.2.0",
     "@semantic-release/npm": "^11.0.0",
     "c8": "^9.1.0",
     "semantic-release": "^22.0.1",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.1",
     "typescript": "^5.3.3"
   }
 }

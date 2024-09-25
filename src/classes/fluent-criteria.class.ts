@@ -21,13 +21,13 @@ export class FluentCriteria<T> {
                     equal: (value: unknown) => {
                         return this.createAndOrProxy({
                             meet: (elements = []) => {
-                                return elements.filter((element) => getValue(element, []) === value);
+                                return elements.filter((element) => getValue(element, lastProperties) === value);
                             }
                         });
                     },
                     defined: this.createAndOrProxy({
                         meet: (elements = []) => {
-                            return elements.filter((element) => (getValue(element, []) ?? undefined) !== undefined)
+                            return elements.filter((element) => (getValue(element, lastProperties) ?? undefined) !== undefined)
                         }
                     }),
                     custom: (fn: (property: string, element: T) => boolean) => {
@@ -44,7 +44,7 @@ export class FluentCriteria<T> {
                        return this.createAndOrProxy({
                             meet: (elements = []) => {
                                 const oneHand = criteria?.meet(elements) ?? [];
-                                const otherHand = elements.filter((element) => getValue(element, []) === value);
+                                const otherHand = elements.filter((element) => getValue(element, lastProperties) === value);
                                 
                                 return [ ...new Set(oneHand.concat(otherHand)) ];
                             }
@@ -53,7 +53,7 @@ export class FluentCriteria<T> {
                     defined: this.createAndOrProxy({
                         meet: (elements = []) => {
                             const oneHand = criteria?.meet(elements) ?? [];
-                            const otherHand = elements.filter((element) => (getValue(element, []) ?? undefined) !== undefined);
+                            const otherHand = elements.filter((element) => (getValue(element, lastProperties) ?? undefined) !== undefined);
                             
                             return [ ...new Set(oneHand.concat(otherHand)) ];
                         }
