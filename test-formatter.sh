@@ -11,4 +11,9 @@ for file in $js_files; do
     sed -i '/^import/s/\.class\b/\.class.js/g' "$file"
 done
 
+for file in $js_files; do
+    # Use sed to replace ".dataset" with ".dataset.js" only on lines starting with "import"
+    sed -i '/^import/s/\.dataset\b/\.dataset.js/g' "$file"
+done
+
 echo "Replacement completed."

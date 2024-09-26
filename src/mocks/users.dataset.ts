@@ -2,6 +2,7 @@ export interface IUser {
     id: string;
     phone: string;
     access_token: string;
+    description?: string;
     profile: {
         image: string;
         thumbnail?: {
@@ -18,9 +19,10 @@ export interface IUser {
 
 export const users: IUser[] = [
     {
-        id: "1",
+        id: "0",
         phone: "+12345678901",
         access_token: "token123abc",
+        description: "user description",
         profile: {
             image: "https://example.com/images/user1.jpg",
             thumbnail: {
@@ -35,7 +37,7 @@ export const users: IUser[] = [
         email: "user1@example.com"
     },
     {
-        id: "2",
+        id: "1",
         phone: "+12345678902",
         access_token: "token456def",
         profile: {
@@ -50,7 +52,7 @@ export const users: IUser[] = [
         }
     },
     {
-        id: "3",
+        id: "2",
         phone: "+12345678903",
         access_token: "token789ghi",
         profile: {
@@ -59,7 +61,7 @@ export const users: IUser[] = [
         email: "user3@example.com"
     },
     {
-        id: "4",
+        id: "3",
         phone: "+12345678904",
         access_token: "tokenabc123",
         profile: {
@@ -76,7 +78,7 @@ export const users: IUser[] = [
         email: "user4@example.com"
     },
     {
-        id: "5",
+        id: "4",
         phone: "+12345678905",
         access_token: "tokendef456",
         profile: {
@@ -91,7 +93,7 @@ export const users: IUser[] = [
         }
     },
     {
-        id: "6",
+        id: "5",
         phone: "+12345678906",
         access_token: "tokenghi789",
         profile: {
@@ -100,7 +102,7 @@ export const users: IUser[] = [
         email: "user6@example.com"
     },
     {
-        id: "7",
+        id: "6",
         phone: "+12345678907",
         access_token: "tokenjkl012",
         profile: {
@@ -116,7 +118,7 @@ export const users: IUser[] = [
         }
     },
     {
-        id: "8",
+        id: "7",
         phone: "+12345678908",
         access_token: "tokenmno345",
         profile: {
@@ -124,8 +126,9 @@ export const users: IUser[] = [
         }
     },
     {
-        id: "9",
+        id: "8",
         phone: "+12345678909",
+        description: "user description",
         access_token: "tokenpqr678",
         profile: {
             image: "https://example.com/images/user9.jpg",
@@ -140,7 +143,7 @@ export const users: IUser[] = [
         email: "user9@example.com"
     },
     {
-        id: "10",
+        id: "9",
         phone: "+12345678910",
         access_token: "tokenstu901",
         profile: {

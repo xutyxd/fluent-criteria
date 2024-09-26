@@ -30,36 +30,28 @@ describe('FluentCriteria class', () => {
 
             const result = instance.search.description.equal('user description').find(dataset);
 
-            assert.deepEqual(result, [ toCompare[0], toCompare[9] ]);
+            assert.deepEqual(result, [ toCompare[0], toCompare[8] ]);
         });
 
         it('should search with defined', () => {
-            const instance = new FluentCriteria<{ name?: string, age: number }>();
+            const instance = new FluentCriteria<IUser>();
 
-            const result = instance.search.name.defined.find([
-                { name: 'xutyxd', age: 20 },
-                { name: 'xutyxd', age: 30 },
-                { age: 25 }
-            ]);
+            const result = instance.search.profile.thumbnail.resolution.defined.find(dataset);
 
-            assert.deepEqual(result, [
-                { name: 'xutyxd', age: 20 },
-                { name: 'xutyxd', age: 30 }
-            ]);
+            assert.deepEqual(result, [ toCompare[0], toCompare[3], toCompare[6] ]);
         });
 
-        it.only('should search with custom', () => {
-            const instance = new FluentCriteria<{ name: string, age: number }>();
+        it('should search with custom', () => {
+            const instance = new FluentCriteria<IUser>();
 
-            const result = instance.search.age.custom((property, element, value) => (value as number) % 10 === 0).find([
-                { name: 'xutyxd', age: 20 },
-                { name: 'xutyxd', age: 30 },
-                { name: 'nope', age: 25 }
-            ]);
+            const result = instance.search.id.custom((property, element, value) => (value as number) % 2 === 0).find(dataset);
 
             assert.deepEqual(result, [
-                { name: 'xutyxd', age: 20 },
-                { name: 'xutyxd', age: 30 }
+                toCompare[0],
+                toCompare[2],
+                toCompare[4],
+                toCompare[6],
+                toCompare[8]
             ]);
         });
     });
