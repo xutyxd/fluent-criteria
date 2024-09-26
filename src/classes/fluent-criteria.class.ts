@@ -21,19 +21,28 @@ export class FluentCriteria<T> {
                     equal: (value: unknown) => {
                         return this.andOr({
                             meet: (elements = []) => {
-                                return elements.filter((element) => getValue(element, lastProperties) === value);
+                                // If previous criteria, filter by it
+                                const filtered = criteria?.meet(elements) || elements;
+                                // Re filter new elements with new criteria
+                                return filtered.filter((element) => getValue(element, lastProperties) === value);
                             }
                         });
                     },
                     defined: this.andOr({
                         meet: (elements = []) => {
-                            return elements.filter((element) => (getValue(element, lastProperties) ?? undefined) !== undefined)
+                            // If previous criteria, filter by it
+                            const filtered = criteria?.meet(elements) || elements;
+                            // Re filter new elements with new criteria
+                            return filtered.filter((element) => (getValue(element, lastProperties) ?? undefined) !== undefined)
                         }
                     }),
                     custom: (fn: (property: string[], element: T, value: unknown) => boolean) => {
                         return this.andOr({
                             meet: (elements = []) => {
-                                return elements.filter((element) => fn(lastProperties, element, getValue(element, lastProperties)))
+                                // If previous criteria, filter by it
+                                const filtered = criteria?.meet(elements) || elements;
+                                // Re filter new elements with new criteria
+                                return filtered.filter((element) => fn(lastProperties, element, getValue(element, lastProperties)))
                             }
                         });
                     }
@@ -58,12 +67,11 @@ export class FluentCriteria<T> {
                             return [ ...new Set(oneHand.concat(otherHand)) ];
                         }
                     }),
-                    custom: (fn: (property: string, element: T) => boolean) => {
+                    custom: (fn: (property: string[], element: T, value: unknown) => boolean) => {
                         return this.andOr({
                             meet: (elements = []) => {
                                 const oneHand = criteria?.meet(elements) ?? [];
-                                const otherHand = elements.filter((element) => fn(property, element));
-                                
+                                const otherHand = elements.filter((element) => fn(lastProperties, element, getValue(element, lastProperties)))
                                 return [ ...new Set(oneHand.concat(otherHand)) ];
                             }
                         });
@@ -72,8 +80,9 @@ export class FluentCriteria<T> {
 
                 let result;
 
+                const operations = { and, or };
                 if (property in and || property in or) {
-                    result = and[property as keyof typeof and] || or[property as keyof typeof or];
+                    result = operations[operation][property as keyof (typeof and & typeof or)];
                 } else {
                     const properties: string[] = [...lastProperties, property];
                     result = this.criteriaSelf(operation, criteria, properties)

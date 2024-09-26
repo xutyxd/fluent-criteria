@@ -2,6 +2,7 @@ export interface IUser {
     id: string;
     phone: string;
     access_token: string;
+    role: 'admin' | 'user';
     description?: string;
     profile: {
         image: string;
@@ -23,6 +24,7 @@ export const users: IUser[] = [
         phone: "+12345678901",
         access_token: "token123abc",
         description: "user description",
+        role: 'admin',
         profile: {
             image: "https://example.com/images/user1.jpg",
             thumbnail: {
@@ -40,6 +42,7 @@ export const users: IUser[] = [
         id: "1",
         phone: "+12345678902",
         access_token: "token456def",
+        role: 'user',
         profile: {
             image: "https://example.com/images/user2.jpg",
             thumbnail: {
@@ -55,6 +58,7 @@ export const users: IUser[] = [
         id: "2",
         phone: "+12345678903",
         access_token: "token789ghi",
+        role: 'user',
         profile: {
             image: "https://example.com/images/user3.jpg"
         },
@@ -64,6 +68,7 @@ export const users: IUser[] = [
         id: "3",
         phone: "+12345678904",
         access_token: "tokenabc123",
+        role: 'user',
         profile: {
             image: "https://example.com/images/user4.jpg",
             thumbnail: {
@@ -81,6 +86,7 @@ export const users: IUser[] = [
         id: "4",
         phone: "+12345678905",
         access_token: "tokendef456",
+        role: 'user',
         profile: {
             image: "https://example.com/images/user5.jpg",
             thumbnail: {
@@ -96,6 +102,7 @@ export const users: IUser[] = [
         id: "5",
         phone: "+12345678906",
         access_token: "tokenghi789",
+        role: 'user',
         profile: {
             image: "https://example.com/images/user6.jpg"
         },
@@ -105,6 +112,7 @@ export const users: IUser[] = [
         id: "6",
         phone: "+12345678907",
         access_token: "tokenjkl012",
+        role: 'user',
         profile: {
             image: "https://example.com/images/user7.jpg",
             thumbnail: {
@@ -121,6 +129,7 @@ export const users: IUser[] = [
         id: "7",
         phone: "+12345678908",
         access_token: "tokenmno345",
+        role: 'user',
         profile: {
             image: "https://example.com/images/user8.jpg"
         }
@@ -130,6 +139,7 @@ export const users: IUser[] = [
         phone: "+12345678909",
         description: "user description",
         access_token: "tokenpqr678",
+        role: 'user',
         profile: {
             image: "https://example.com/images/user9.jpg",
             thumbnail: {
@@ -146,6 +156,7 @@ export const users: IUser[] = [
         id: "9",
         phone: "+12345678910",
         access_token: "tokenstu901",
+        role: 'user',
         profile: {
             image: "https://example.com/images/user10.jpg"
         },
