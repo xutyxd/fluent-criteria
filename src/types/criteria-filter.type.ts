@@ -5,5 +5,5 @@ import { AndOr } from "./and-or.type";
 export type CriteriaFilter<O, N> = {
     equal: (value: unknown) => AndOr<O>;
     defined: AndOr<O>;
-    custom: (fn: (property: keyof N, element: N) => boolean) => AndOr<O>;
+    custom: (fn: (properties: string[], element: N, value: unknown) => boolean) => AndOr<O>;
 }

@@ -3,9 +3,9 @@ import { Recursivity } from "../types/recursivity.type";
 
 export class FluentCriteria<T> {
 
-    private createProxy(operation: 'and' | 'or', criteria?: IFluentCriteria<T>, lastProperties: string[] = []) {
+    private criteriaSelf(operation: 'and' | 'or', criteria?: IFluentCriteria<T>, lastProperties: string[] = []) {
         return new Proxy({} as Recursivity<T>, {
-            get: (target, property, receiver) => {
+            get: (_, property) => {
 
                 if (typeof property !== 'string') {
                     return;
@@ -19,29 +19,29 @@ export class FluentCriteria<T> {
 
                 const and = {
                     equal: (value: unknown) => {
-                        return this.createAndOrProxy({
+                        return this.andOr({
                             meet: (elements = []) => {
                                 return elements.filter((element) => getValue(element, lastProperties) === value);
                             }
                         });
                     },
-                    defined: this.createAndOrProxy({
+                    defined: this.andOr({
                         meet: (elements = []) => {
                             return elements.filter((element) => (getValue(element, lastProperties) ?? undefined) !== undefined)
                         }
                     }),
-                    custom: (fn: (property: string, element: T) => boolean) => {
-                        return this.createAndOrProxy({
+                    custom: (fn: (property: string[], element: T, value: unknown) => boolean) => {
+                        return this.andOr({
                             meet: (elements = []) => {
-                                return elements.filter((element) => fn(property, element))
+                                return elements.filter((element) => fn(lastProperties, element, getValue(element, lastProperties)))
                             }
                         });
                     }
                 };
 
-                const or ={
+                const or = {
                     equal: (value: unknown) => {
-                       return this.createAndOrProxy({
+                       return this.andOr({
                             meet: (elements = []) => {
                                 const oneHand = criteria?.meet(elements) ?? [];
                                 const otherHand = elements.filter((element) => getValue(element, lastProperties) === value);
@@ -50,7 +50,7 @@ export class FluentCriteria<T> {
                             }
                         });
                     },
-                    defined: this.createAndOrProxy({
+                    defined: this.andOr({
                         meet: (elements = []) => {
                             const oneHand = criteria?.meet(elements) ?? [];
                             const otherHand = elements.filter((element) => (getValue(element, lastProperties) ?? undefined) !== undefined);
@@ -59,7 +59,7 @@ export class FluentCriteria<T> {
                         }
                     }),
                     custom: (fn: (property: string, element: T) => boolean) => {
-                        return this.createAndOrProxy({
+                        return this.andOr({
                             meet: (elements = []) => {
                                 const oneHand = criteria?.meet(elements) ?? [];
                                 const otherHand = elements.filter((element) => fn(property, element));
@@ -76,7 +76,7 @@ export class FluentCriteria<T> {
                     result = and[property as keyof typeof and] || or[property as keyof typeof or];
                 } else {
                     const properties: string[] = [...lastProperties, property];
-                    result = this.createProxy(operation, criteria, properties)
+                    result = this.criteriaSelf(operation, criteria, properties)
                 }
 
                 return result;
@@ -84,15 +84,15 @@ export class FluentCriteria<T> {
         });
     }
 
-    private createAndOrProxy(criteria: IFluentCriteria<T>) {
+    private andOr(criteria: IFluentCriteria<T>) {
         return {
-            and: this.createProxy('and', criteria),
-            or: this.createProxy('or', criteria),
+            and: this.criteriaSelf('and', criteria),
+            or: this.criteriaSelf('or', criteria),
             find: (elements: T[] = []) => {
                 return criteria ? criteria.meet(elements) : elements
             }
         };
     }
 
-    public search = this.createProxy('and');
+    public search = this.criteriaSelf('and');
 }
