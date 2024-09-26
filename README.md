@@ -2,7 +2,7 @@
   <a href="https://github.com/xutyxd/fluent-criteria">
     <picture>
       <source srcset="fluent-criteria-logo.png">
-      <img alt="Codely logo" src="fluent-criteria-logo.png">
+      <img alt="Fluent criteria logo" src="fluent-criteria-logo.png">
     </picture>
   </a>
 </p>
@@ -12,8 +12,10 @@
 </h1>
 
 <p align="left">
-    <a href="https://github.com/xutyxd/fluent-criteria">
-    <img src="https://img.shields.io/npm/dw/fluent-criteria"/></a>
+    <img src="https://img.shields.io/npm/dw/fluent-criteria"/>
+    <img alt="NPM Unpacked Size" src="https://img.shields.io/npm/unpacked-size/fluent-criteria">
+    <img alt="npm bundle size" src="https://img.shields.io/bundlephobia/min/fluent-criteria">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/fluent-criteria">
 </p>
 
 ## 📥 Installation
